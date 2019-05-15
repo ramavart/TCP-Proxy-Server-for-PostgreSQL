@@ -26,9 +26,9 @@ public:
 	void listen();
 	TCPproxy(unsigned short portToClient/*, /*unsigned short portToDB*/) :
 		clientAcceptor(service, ip::tcp::endpoint(ip::tcp::v4(), portToClient)) {
-			//std::thread thRequestProcessor(&TCPproxy::clientRequestProcessor, this);
+			std::thread thRequestProcessor(&TCPproxy::clientRequestProcessor, this);
 			std::cout << "server started" << std::endl;
-			//thRequestProcessor.detach();
+			thRequestProcessor.detach();
 	};
 	~TCPproxy() {};
 	void clientRequestProcessor(); //необходимо добавить возврат из функции, чтобы закрывать поток
