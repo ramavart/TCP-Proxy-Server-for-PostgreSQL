@@ -12,25 +12,23 @@ using namespace boost::asio;
 
 class TCPproxy {
 
-	//норм именование?
-	//
 	using clientPtr = std::shared_ptr<clientConnection>;
 	using clientArray = std::vector <clientPtr>;
 	clientArray Connections;
-
+	unsigned short portToDB;
 	io_service service;
 	ip::tcp::acceptor clientAcceptor;
 	std::recursive_mutex mx;
 	
 public:
 	void listen();
-	TCPproxy(unsigned short portToClient/*, /*unsigned short portToDB*/) :
-		clientAcceptor(service, ip::tcp::endpoint(ip::tcp::v4(), portToClient)) {
+	TCPproxy(unsigned short portToClient, unsigned short portToDB) :
+		clientAcceptor(service, ip::tcp::endpoint(ip::tcp::v4(), portToClient)), portToDB(portToDB) {
 			std::thread thRequestProcessor(&TCPproxy::clientRequestProcessor, this);
 			std::cout << "server started" << std::endl;
 			thRequestProcessor.detach();
 	};
 	~TCPproxy() {};
-	void clientRequestProcessor(); //необходимо добавить возврат из функции, чтобы закрывать поток
+	void clientRequestProcessor(); //need to add conition to return
 
 };

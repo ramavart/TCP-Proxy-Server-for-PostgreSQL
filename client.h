@@ -1,6 +1,7 @@
 #pragma once
 #include <boost/asio.hpp>
 #include <iostream>
+#include <thread>
 
 using namespace boost::asio;
 
@@ -13,8 +14,11 @@ class client
 	char buff[max_msg];
 	bool started;
 	
-	std::string msg = "CONNECT TO tcp : postgresql://localhost:20/connectdb USER connectuser IDENTIFIED BY connectpw;";
-	const char * queryToConnect = "CONNECT TO tcp: postgresql://localhost:20/connectdb USER connectuser IDENTIFIED BY connectpw;";
+
+	std::string msgconnect = "30199608userpostgresdatabasepostgres";
+	std::string request = "select color from polygons";
+
+	
 public:
 	client() : sock(service), started(true) {};
 
@@ -26,6 +30,6 @@ public:
 	void conversation();
 	void write();
 	void read_answer();
-	//~client();
+	~client();
 };
 
